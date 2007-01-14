@@ -1,0 +1,434 @@
+diff -ru sap.src/sapCpu.cpp sap.src.endian/sapCpu.cpp
+--- sap.src/sapCpu.cpp	2001-10-14 23:11:24.000000000 -0700
++++ sap.src.endian/sapCpu.cpp	2006-11-29 07:17:49.000000000 -0800
+@@ -237,7 +237,7 @@
+ 	cpuReg_PC+=2;
+ 	atariMem[0x100 + cpuReg_S] = (cpuReg_PC>>8)&0xFF; cpuReg_S--;
+ 	atariMem[0x100 + cpuReg_S] = cpuReg_PC&0xFF; cpuReg_S--;
+-	cpuReg_PC = dword_u.valW;
++	cpuReg_PC = VTOHS(dword_u.valW);
+ 	return 6;
+ }
+ int opcode_0x21(void)	/* 0x21 - AND (,X)			6 cycles	*/
+@@ -310,14 +310,14 @@
+ {
+ BYTE cb;
+ 	cpuReg_PC+=3;
+-	cb = freddieReadByte( dword_u.valW );
++	cb = freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuFlag_Z = cb&cpuReg_A; cpuFlag_N = cb; cpuFlag_V = cb>>6;
+ 	return 4;
+ }
+ int opcode_0x2D(void)	/* 0x2D - AND ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuReg_A &= freddieReadByte( dword_u.valW );
++	cpuReg_A &= freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	return 4;
+ }
+@@ -325,7 +325,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal>>7; cpuNewVal = (cpuVal<<1) + (cpuFlag_C&1); cpuFlag_C = cC; cpuFlag_N = cpuFlag_Z = cpuNewVal;
+ 	doWrite = 2;
+@@ -335,7 +335,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal>>7; cpuVal = (cpuVal<<1) + (cpuFlag_C&1); cpuFlag_C = cC;
+ 	cpuReg_A &= cpuVal; cpuFlag_N = cpuFlag_Z = cpuReg_A;
+@@ -418,10 +418,10 @@
+ {
+ WORD wA;
+ 	cpuReg_PC+=3;
+-	wA = dword_u.valW + ((WORD)cpuReg_Y);
++	wA = VTOHS(dword_u.valW) + ((WORD)cpuReg_Y);
+ 	cpuReg_A &= freddieReadByte( wA );
+ 	cpuFlag_N = cpuFlag_Z = cpuReg_A;
+-	wA = dword_u.valW ^ wA;
++	wA = VTOHS(dword_u.valW) ^ wA;
+ 	return 4+((wA>>8)&1);
+ }
+ int opcode_0x3A(void)	/* 0x3A - NOP1						*/
+@@ -433,7 +433,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_Y);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_Y);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal>>7; cpuNewVal = (cpuVal<<1) | (cpuFlag_C&1); cpuFlag_C = cC; cpuReg_A &= cpuNewVal; cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	doWrite = 2;
+@@ -448,17 +448,17 @@
+ {
+ WORD wA;
+ 	cpuReg_PC+=3;
+-	wA = dword_u.valW + ((WORD)cpuReg_X);
++	wA = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuReg_A &= freddieReadByte( wA );
+ 	cpuFlag_N = cpuFlag_Z = cpuReg_A;
+-	wA = dword_u.valW ^ wA;
++	wA = VTOHS(dword_u.valW) ^ wA;
+ 	return 4+((wA>>8)&1);
+ }
+ int opcode_0x3E(void)	/* 0x3E - ROL ABS,X			7 cycles	*/
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_X);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal>>7; cpuNewVal = (cpuVal<<1) | (cpuFlag_C&1); cpuFlag_C = cC; cpuFlag_N = cpuFlag_Z = cpuNewVal;
+ 	doWrite = 2;
+@@ -468,7 +468,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_X);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal>>7; cpuNewVal = (cpuVal<<1) | (cpuFlag_C&1); cpuFlag_C = cC; cpuReg_A &= cpuNewVal; cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	doWrite = 2;
+@@ -565,19 +565,19 @@
+ }
+ int opcode_0x4C(void)	/* 0x4C - JMP				3 cycles	*/
+ {
+-	cpuReg_PC = dword_u.valW;
++	cpuReg_PC = VTOHS(dword_u.valW);
+ 	return 3;
+ }
+ int opcode_0x4D(void)	/* 0x4D - EOR ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuReg_A ^= freddieReadByte( dword_u.valW ); cpuFlag_N = cpuFlag_Z = cpuReg_A;
++	cpuReg_A ^= freddieReadByte( VTOHS(dword_u.valW) ); cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	return 4;
+ }
+ int opcode_0x4E(void)	/* 0x4E - LSR ABS			6 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cpuFlag_C = cpuVal; cpuNewVal = cpuVal >> 1; cpuFlag_N = cpuFlag_Z = cpuNewVal;
+ 	doWrite = 2;
+@@ -586,7 +586,7 @@
+ int opcode_0x4F(void)	/* 0x4F - LSR:EOR ABS		6 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cpuFlag_C = cpuVal; cpuNewVal = cpuVal >> 1; cpuReg_A ^= cpuNewVal; cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	doWrite = 2;
+@@ -666,10 +666,10 @@
+ {
+ WORD wA;
+ 	cpuReg_PC+=3;
+-	wA = dword_u.valW + ((WORD)cpuReg_Y);
++	wA = VTOHS(dword_u.valW) + ((WORD)cpuReg_Y);
+ 	cpuReg_A ^= freddieReadByte( wA );
+ 	cpuFlag_N = cpuFlag_Z = cpuReg_A;
+-	wA = dword_u.valW ^ wA;
++	wA = VTOHS(dword_u.valW) ^ wA;
+ 	return 4+((wA>>8)&1);
+ }
+ int opcode_0x5A(void)	/* 0x5A - NOP1				2 cycles	*/
+@@ -680,7 +680,7 @@
+ int opcode_0x5B(void)	/* 0x5B - LSR:EOR ABS,Y		7 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_Y);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_Y);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cpuFlag_C = cpuVal; cpuNewVal = cpuVal>>1; cpuReg_A ^= cpuNewVal; cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	doWrite = 2;
+@@ -695,16 +695,16 @@
+ {
+ WORD wA;
+ 	cpuReg_PC+=3;
+-	wA = dword_u.valW + ((WORD)cpuReg_X);
++	wA = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuReg_A ^= freddieReadByte( wA );
+ 	cpuFlag_N = cpuFlag_Z = cpuReg_A;
+-	wA = dword_u.valW ^ wA;
++	wA = VTOHS(dword_u.valW) ^ wA;
+ 	return 4+((wA>>8)&1);
+ }
+ int opcode_0x5E(void)	/* 0x5E - LSR ABS,X			7 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_X);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cpuFlag_C = cpuVal; cpuNewVal = cpuVal>>1; cpuFlag_N = cpuFlag_Z = cpuNewVal;
+ 	doWrite = 2;
+@@ -713,7 +713,7 @@
+ int opcode_0x5F(void)	/* 0x5F - LSR:EOR ABS,X		7 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_X);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cpuFlag_C = cpuVal; cpuNewVal = cpuVal>>1; cpuReg_A ^= cpuNewVal; cpuFlag_N = cpuFlag_Z = cpuReg_A;
+ 	doWrite = 2;
+@@ -881,7 +881,7 @@
+ int opcode_0x6C(void)	/* 0x6C - JMP ( )			6 cycles	*/
+ {
+ BYTE cpuLSB,cpuMSB;
+-	cpuLSB = freddieReadByte( dword_u.valW );
++	cpuLSB = freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuMSB = freddieReadByte( (WORD)((dword_u.vb1+1)&0xFF) + ((WORD)dword_u.vb2)*256 );
+ 	cpuWorkAddress = ((WORD)cpuLSB) + ((WORD)cpuMSB)*256;
+ 	cpuReg_PC = cpuWorkAddress;
+@@ -890,7 +890,7 @@
+ int opcode_0x6D(void)	/* 0x6D - ADC ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuVal = freddieReadByte( dword_u.valW );
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) );
+ 	if( cpuFlag_D&1 )
+ 	{
+ 		BYTE al,ah;
+@@ -913,7 +913,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal; cpuNewVal = (cpuVal>>1) + (cpuFlag_C<<7); cpuFlag_C = cC; cpuFlag_N = cpuFlag_Z = cpuNewVal;
+ 	doWrite = 2;
+@@ -923,7 +923,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal; cpuNewVal = (cpuVal>>1) + (cpuFlag_C<<7); cpuFlag_C = cC;
+ 	{ WORD te;
+@@ -1114,7 +1114,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = ((WORD)dword_u.valW) + ((WORD)cpuReg_X);
++	cpuWorkAddress = ((WORD)VTOHS(dword_u.valW)) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal; cpuNewVal = (cpuVal>>1) + (cpuFlag_C<<7); cpuFlag_C = cC;
+ 	doWrite = 2;
+@@ -1171,7 +1171,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = ((WORD)dword_u.valW) + ((WORD)cpuReg_X);
++	cpuWorkAddress = ((WORD)VTOHS(dword_u.valW)) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal; cpuNewVal = (cpuVal>>1) + (cpuFlag_C<<7); cpuFlag_C = cC; cpuFlag_N = cpuFlag_Z = cpuNewVal;
+ 	doWrite = 2;
+@@ -1181,7 +1181,7 @@
+ {
+ BYTE cC;
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = ((WORD)dword_u.valW) + ((WORD)cpuReg_X);
++	cpuWorkAddress = ((WORD)VTOHS(dword_u.valW)) + ((WORD)cpuReg_X);
+ 	cpuVal = freddieReadByte( cpuWorkAddress );
+ 	cC = cpuVal; cpuNewVal = (cpuVal>>1) + (cpuFlag_C<<7); cpuFlag_C = cC;
+ 	doWrite = 2;
+@@ -1285,7 +1285,7 @@
+ int opcode_0x8C(void)	/* 0x8C - STY ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuNewVal = cpuReg_Y;
+ 	doWrite = 1;
+ 	return 4;
+@@ -1293,7 +1293,7 @@
+ int opcode_0x8D(void)	/* 0x8D - STA ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuNewVal = cpuReg_A;
+ 	doWrite = 1;
+ 	return 4;
+@@ -1301,7 +1301,7 @@
+ int opcode_0x8E(void)	/* 0x8E - STX ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuNewVal = cpuReg_X;
+ 	doWrite = 1;
+ 	return 4;
+@@ -1309,7 +1309,7 @@
+ int opcode_0x8F(void)	/* 0x8F - STORE(A&X)	ABS		4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
++	cpuWorkAddress = VTOHS(dword_u.valW);
+ 	cpuNewVal = cpuReg_A&cpuReg_X;
+ 	doWrite = 1;
+ 	return 4;
+@@ -1376,7 +1376,7 @@
+ int opcode_0x99(void)	/* 0x99 - STA ABS,Y			5 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_Y);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_Y);
+ 	cpuNewVal = cpuReg_A;
+ 	doWrite = 1;
+ 	return 5;
+@@ -1398,7 +1398,7 @@
+ int opcode_0x9D(void)	/* 0x9D - STA ABS,X			5 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW + ((WORD)cpuReg_X);
++	cpuWorkAddress = VTOHS(dword_u.valW) + ((WORD)cpuReg_X);
+ 	cpuNewVal = cpuReg_A;
+ 	doWrite = 1;
+ 	return 5;
+@@ -1492,25 +1492,25 @@
+ int opcode_0xAC(void)	/* 0xAC - LDY ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuFlag_N = cpuFlag_Z = cpuReg_Y = freddieReadByte( dword_u.valW );
++	cpuFlag_N = cpuFlag_Z = cpuReg_Y = freddieReadByte( VTOHS(dword_u.valW) );
+ 	return 4;
+ }
+ int opcode_0xAD(void)	/* 0xAD - LDA ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuFlag_N = cpuFlag_Z = cpuReg_A = freddieReadByte( dword_u.valW );
++	cpuFlag_N = cpuFlag_Z = cpuReg_A = freddieReadByte( VTOHS(dword_u.valW) );
+ 	return 4;
+ }
+ int opcode_0xAE(void)	/* 0xAE - LDX ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuFlag_N = cpuFlag_Z = cpuReg_X = freddieReadByte( dword_u.valW );
++	cpuFlag_N = cpuFlag_Z = cpuReg_X = freddieReadByte( VTOHS(dword_u.valW) );
+ 	return 4;
+ }
+ int opcode_0xAF(void)	/* 0xAF - LDA:TAX ABS		4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuFlag_N = cpuFlag_Z = cpuReg_A = cpuReg_X = freddieReadByte( dword_u.valW );
++	cpuFlag_N = cpuFlag_Z = cpuReg_A = cpuReg_X = freddieReadByte( VTOHS(dword_u.valW) );
+ 	return 4;
+ }
+ int opcode_0xB0(void)	/* 0xB0 - BCS				2-4 cycles	*/
+@@ -1733,7 +1733,7 @@
+ int opcode_0xCC(void)	/* 0xCC - CPY ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuVal = freddieReadByte( dword_u.valW ) ^ 255;
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) ) ^ 255;
+ 	{ int cpuIntValue2;
+ 	cpuIntValue2 = ((int)cpuReg_Y) + ((int)cpuVal) + 1;
+ 	cpuFlag_N = cpuFlag_Z = (BYTE)cpuIntValue2; cpuFlag_C = (BYTE)(cpuIntValue2>>8);
+@@ -1743,7 +1743,7 @@
+ int opcode_0xCD(void)	/* 0xCD - CMP ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuVal = freddieReadByte( dword_u.valW ) ^ 255;
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) ) ^ 255;
+ 	{ int cpuIntValue2;
+ 	cpuIntValue2 = ((int)cpuReg_A) + ((int)cpuVal) + 1;
+ 	cpuFlag_N = cpuFlag_Z = (BYTE)cpuIntValue2; cpuFlag_C = (BYTE)(cpuIntValue2>>8);
+@@ -1753,8 +1753,8 @@
+ int opcode_0xCE(void)	/* 0xCE - DEC ABS			6 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
+-	cpuVal = freddieReadByte( dword_u.valW );
++	cpuWorkAddress = VTOHS(dword_u.valW);
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuFlag_N = cpuFlag_Z = cpuNewVal = cpuVal-1;
+ 	doWrite = 2;
+ 	return 6;
+@@ -1762,8 +1762,8 @@
+ int opcode_0xCF(void)	/* 0xCF - DEC:CMP ABS		6 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
+-	cpuVal = freddieReadByte( dword_u.valW );
++	cpuWorkAddress = VTOHS(dword_u.valW);
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuNewVal = cpuVal-1;
+ 	doWrite = 2;
+ 	{ int cpuIntValue2;
+@@ -2085,7 +2085,7 @@
+ int opcode_0xEC(void)	/* 0xEC - CPX ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuVal = freddieReadByte( dword_u.valW ) ^ 255;
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) ) ^ 255;
+ 	{ int cpuIntValue2;
+ 	cpuIntValue2 = ((int)cpuReg_X) + ((int)cpuVal) + 1;
+ 	cpuFlag_N = cpuFlag_Z = (BYTE)cpuIntValue2; cpuFlag_C = (BYTE)(cpuIntValue2>>8);
+@@ -2095,7 +2095,7 @@
+ int opcode_0xED(void)	/* 0xED - SBC ABS			4 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuVal = freddieReadByte( dword_u.valW );
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) );
+ 	if( cpuFlag_D&1 )
+ 	{
+ 		BYTE al,ah; unsigned int tmp; tmp = (DWORD)cpuReg_A - (DWORD)cpuVal - (WORD)((cpuFlag_C&1)^1);
+@@ -2114,8 +2114,8 @@
+ int opcode_0xEE(void)	/* 0xEE - INC ABS			6 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
+-	cpuVal = freddieReadByte( dword_u.valW );
++	cpuWorkAddress = VTOHS(dword_u.valW);
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuFlag_N = cpuFlag_Z = cpuNewVal = cpuVal+1;
+ 	doWrite = 2;
+ 	return 6;
+@@ -2123,8 +2123,8 @@
+ int opcode_0xEF(void)	/* 0xEF - INC:SBC ABS		6 cycles	*/
+ {
+ 	cpuReg_PC+=3;
+-	cpuWorkAddress = dword_u.valW;
+-	cpuVal = freddieReadByte( dword_u.valW );
++	cpuWorkAddress = VTOHS(dword_u.valW);
++	cpuVal = freddieReadByte( VTOHS(dword_u.valW) );
+ 	cpuNewVal = cpuVal-1;
+ 	doWrite = 2;
+ 	if( cpuFlag_D&1 )
+Only in sap.src.endian: sapCpu.cpp.orig
+Only in sap.src.endian: sapCpu.cpp.rej
+diff -ru sap.src/sapGlobals.h sap.src.endian/sapGlobals.h
+--- sap.src/sapGlobals.h	2001-10-14 23:13:46.000000000 -0700
++++ sap.src.endian/sapGlobals.h	2006-11-29 07:21:26.000000000 -0800
+@@ -106,6 +106,17 @@
+ } dword_u;
+ #pragma pack(pop)
+ 
++#ifndef NATIVE_ENDIAN
++#ifdef SWAP_ENDIAN
++#define VTOHS(n) ((((n)&0xFF)<<8) + (((n)>>8)&0xFF))
++#else
++// ENDIAN independent
++#define VTOHS(n) ( ( (WORD)((unsigned char *)&n)[1]<< 8) | ((unsigned char *)&n)[0] )
++#endif
++#else
++#define VTOHS(n) (n)
++#endif
++
+ //typedef int (*opcodeFunc)(bool &holded);
+ typedef int (*opcodeFunc)(void);
+ 
+Only in sap.src.endian: sapGlobals.h.orig
+Only in sap.src.endian: sapGlobals.h.rej

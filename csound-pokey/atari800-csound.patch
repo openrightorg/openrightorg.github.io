@@ -1,0 +1,49 @@
+--- atari800-2.0.2/src/sound_oss.c	2005-12-28 10:22:06.000000000 -0800
++++ atari800-2.0.2-csound//src/sound_oss.c	2007-01-13 14:04:22.000000000 -0800
+@@ -38,11 +38,13 @@
+ #include "log.h"
+ #include "pokeysnd.h"
+ #include "util.h"
++#include "atari_csound.h"
+ 
+ static const char * const dspname = "/dev/dsp";
+ static int dsprate = 22050;
+ 
+ static int sound_enabled = TRUE;
++static int csound_enabled = TRUE;
+ static int dsp_fd;
+ static int output_channels;
+ static int pokey_chips;
+@@ -55,6 +57,12 @@
+ 	for (i = j = 1; i < *argc; i++) {
+ 		if (strcmp(argv[i], "-sound") == 0)
+ 			sound_enabled = TRUE;
++		if (strcmp(argv[i], "-csound") == 0)
++		{
++			sound_enabled = FALSE;
++			csound_enabled = TRUE;
++			atari_csound_open();
++		}
+ 		else if (strcmp(argv[i], "-nosound") == 0)
+ 			sound_enabled = FALSE;
+ 		else if (strcmp(argv[i], "-dsprate") == 0)
+@@ -154,6 +162,8 @@
+ 	   - pokeysnd currently supports only up to 65535Hz */
+ 	static unsigned char buffer[4096];
+ 	unsigned int len;
++	if(csound_enabled)
++		atari_csound_write_audio(AUDCTL[0], AUDF, AUDC);
+ 	if (!sound_enabled)
+ 		return;
+ 	/* compute number of samples for one Atari frame
+--- atari800-2.0.2/src/configure	2006-04-08 06:12:23.000000000 -0700
++++ atari800-2.0.2-csound//src/configure	2007-01-13 18:18:28.000000000 -0800
+@@ -9377,7 +9377,7 @@
+                 ;;
+             *)
+                 if [ "$SUPPORTS_SOUND_OSS" = "yes" ]; then
+-                    OBJS="$OBJS sound_oss.o"
++                    OBJS="$OBJS sound_oss.o atari_csound.o"
+                 else
+                     { { echo "$as_me:$LINENO: error: Sound support not available, re-run configure with --disable-sound" >&5
+ echo "$as_me: error: Sound support not available, re-run configure with --disable-sound" >&2;}

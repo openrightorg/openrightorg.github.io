@@ -1,0 +1,158 @@
+diff -ru atari800-2.0.2/src/atari.c atari800-2.0.2-sapsave/src/atari.c
+--- atari800-2.0.2/src/atari.c	2006-01-07 08:24:39.000000000 -0800
++++ atari800-2.0.2-sapsave/src/atari.c	2006-05-05 08:29:50.000000000 -0700
+@@ -1099,6 +1099,9 @@
+ 			if (ram_size == 48)
+ 				ram_size = 52;
+ 		}
++		else if (strcmp(argv[i], "-sap") == 0) {
++			SetSoundFileSap();
++		}
+ 		else {
+ 			/* parameters that take additional argument follow here */
+ 			int i_a = (i + 1 < *argc);		/* is argument available? */
+@@ -1815,6 +1818,20 @@
+ 	INPUT_Frame();
+ #endif
+ 	GTIA_Frame();
++
++	if(IsSoundFileSap())
++	{
++		unsigned char sndbuf[8];
++		int i;
++		for( i = 0; i < 4; i++)
++		{
++			sndbuf[i * 2] = AUDF[i];
++			sndbuf[i * 2 + 1] = AUDC[i];
++		}
++		sndbuf[8] = AUDCTL[0];
++		WriteToSoundFile(sndbuf, 9);
++	}
++
+ #ifdef SOUND
+ 	Sound_Update();
+ #endif
+diff -ru atari800-2.0.2/src/pokeysnd.c atari800-2.0.2-sapsave/src/pokeysnd.c
+--- atari800-2.0.2/src/pokeysnd.c	2006-01-09 00:05:55.000000000 -0800
++++ atari800-2.0.2-sapsave/src/pokeysnd.c	2006-05-05 08:42:10.000000000 -0700
+@@ -275,7 +275,8 @@
+ {
+ 	Pokey_process_ptr(sndbuffer, sndn);
+ #if !defined(__PLUS) && !defined(ASAP)
+-	WriteToSoundFile(sndbuffer, sndn);
++	if(!IsSoundFileSap())
++		WriteToSoundFile(sndbuffer, sndn);
+ #endif
+ }
+ 
+diff -ru atari800-2.0.2/src/sndsave.c atari800-2.0.2-sapsave/src/sndsave.c
+--- atari800-2.0.2/src/sndsave.c	2005-10-19 14:37:18.000000000 -0700
++++ atari800-2.0.2-sapsave/src/sndsave.c	2006-05-05 08:28:26.000000000 -0700
+@@ -26,6 +26,7 @@
+ #include "pokeysnd.h"
+ #include "sndsave.h"
+ 
++static int sndwritesap = 0;
+ /* sndoutput is just the file pointer for the current sound file */
+ static FILE *sndoutput = NULL;
+ 
+@@ -47,6 +48,15 @@
+ 	return sndoutput != NULL;
+ }
+ 
++int IsSoundFileSap()
++{
++	return sndwritesap;
++}
++
++void SetSoundFileSap()
++{
++	sndwritesap = 1;
++}
+ 
+ /* CloseSoundFile should be called when the program is exiting, or when all data required has been
+    written to the file. CloseSoundFile will also be called automatically when a call is made to
+@@ -60,15 +70,17 @@
+ 	int bSuccess = TRUE;
+ 
+ 	if (sndoutput != NULL) {
+-		/* Sound file is finished, so modify header and close it. */
+-		if (fseek(sndoutput, 4, SEEK_SET) != 0)	/* Seek past RIFF */
+-			bSuccess = FALSE;
+-		else {
+-			write32(byteswritten + 36);
+-			if (fseek(sndoutput, 40, SEEK_SET) != 0)
++		if(!sndwritesap) {
++			/* Sound file is finished, so modify header and close it. */
++			if (fseek(sndoutput, 4, SEEK_SET) != 0)	/* Seek past RIFF */
+ 				bSuccess = FALSE;
+ 			else {
+-				write32(byteswritten);
++				write32(byteswritten + 36);
++				if (fseek(sndoutput, 40, SEEK_SET) != 0)
++					bSuccess = FALSE;
++				else {
++					write32(byteswritten);
++				}
+ 			}
+ 		}
+ 		fclose(sndoutput);
+@@ -118,6 +130,11 @@
+ 	  44        bytes  <sample data>
+ 	*/
+ 
++	if(sndwritesap)
++	{
++		fprintf(sndoutput, 
++			"SAP\r\nTYPE R\r\nFASTPLAY %u\r\n\r\n", tv_mode);
++	} else {
+ 	if (fwrite("RIFF\0\0\0\0WAVEfmt \x10\0\0\0\1\0", 1, 22, sndoutput) != 22) {
+ 		fclose(sndoutput);
+ 		sndoutput = NULL;
+@@ -137,6 +154,7 @@
+ 		sndoutput = NULL;
+ 		return FALSE;
+ 	}
++	}
+ 
+ 	byteswritten = 0;
+ 	return TRUE;
+diff -ru atari800-2.0.2/src/sndsave.h atari800-2.0.2-sapsave/src/sndsave.h
+--- atari800-2.0.2/src/sndsave.h	2005-08-10 12:33:33.000000000 -0700
++++ atari800-2.0.2-sapsave/src/sndsave.h	2006-05-04 07:09:20.000000000 -0700
+@@ -8,5 +8,9 @@
+ int OpenSoundFile(const char *szFileName);
+ int WriteToSoundFile(const UBYTE *ucBuffer, unsigned int uiSize);
+ 
++int IsSoundFileSap();
++void SetSoundFileSap();
++
++
+ #endif
+ 
+diff -ru atari800-2.0.2/src/ui.c atari800-2.0.2-sapsave/src/ui.c
+--- atari800-2.0.2/src/ui.c	2006-02-05 11:06:46.000000000 -0800
++++ atari800-2.0.2-sapsave/src/ui.c	2006-05-04 07:19:21.000000000 -0700
+@@ -698,7 +698,10 @@
+ 		int no = 0;
+ 		do {
+ 			char buffer[32];
+-			sprintf(buffer, "atari%03d.wav", no);
++			if(IsSoundFileSap())
++				sprintf(buffer, "atari%03d.sap", no);
++			else
++				sprintf(buffer, "atari%03d.wav", no);
+ 			if (!Util_fileexists(buffer)) {
+ 				/* file does not exist - we can create it */
+ 				FilenameMessage(OpenSoundFile(buffer)
+@@ -707,7 +710,7 @@
+ 				return;
+ 			}
+ 		} while (++no < 1000);
+-		ui_driver->fMessage("All atariXXX.wav files exist!");
++		ui_driver->fMessage("All atariXXX sound files exist!");
+ 	}
+ 	else {
+ 		CloseSoundFile();
+
+ 	  	 
