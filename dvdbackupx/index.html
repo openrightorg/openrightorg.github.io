@@ -1,0 +1,37 @@
+<h1>dvdbackupx</h1>
+
+
+<h3>Description:</h3>
+
+<p>
+dvdbackupx is a version of dvdbackup modified to find unused blocks and
+seek past them, potentially avoiding bad sectors. Unused blocks are found
+by using the libdvdnav vm (called libdvdvm here, but not really an independent
+library ) to simulate the execution of pre,post and cell commands to follow
+each title in the title set.
+
+<p>
+The intended use of this is to avoid potentially bad sectors that are perhaps
+created by disc manufacturers attempting to prevent consumer fair use or
+otherwise subverting the "limited time" copyright condition of the US
+constitution.
+
+<h3>Usage:</h3>
+
+dvdbackup -r u -M -i /dev/dvd -o /outdir
+
+<h3>Download:</h3>
+
+<p>
+<a href="dvdbackupx-0.2-2.tar.gz">dvdbackupx-0.2-2</a> is based on dvdbackup-0.2-2 and libdvdnav-4.1.3. With this version, all commands are processed by the vm. Some changes (<a href="libdvdnav-4.1.3-vm.patch">libdvdnav-4.1.3-vm.patch</a>) were required to libdvdnav/libdvdvm to make this possible.
+
+<p>
+<i>Old versions.</i>
+<p>
+The following versions used primative command parsing to predetermine if commands should be skipped or processed by the vm. This is not entirely correct, as comparisons are ignored in the determination, and other vm behavior is possibly missed when skipping commands.</i>
+<p>
+<a href="dvdbackupx-0.2.tar.gz">dvdbackupx-0.2</a> is based on dvdbackup-0.2.
+<p>
+<a href="dvdbackupx-0.1.1.tar.gz">dvdbackupx-0.1.1</a> is based on dvdbackup_0.1.1-10ubuntu1.
+
+<i>-Don Mahurin</i>.
