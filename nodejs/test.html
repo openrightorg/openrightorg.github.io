@@ -1,0 +1,27 @@
+<html>
+<body>
+<h1>Dummy Events</h1>
+<script>
+
+var dev_data = [];
+
+var source1 = new EventSource('/dummy/notifications');
+source1.addEventListener('notification', function(ev) {
+  console.log(ev.data);
+  var notification = JSON.parse(ev.data);
+  var id = notification.id;
+  if(dev_data[id] === undefined) {
+      dev_data[id]  = document.createElement("input");
+  		dev_data[id].id = id;
+      document.body.appendChild(document.createTextNode(id + " "));
+      document.body.appendChild(dev_data[id]);
+      document.body.appendChild(document.createElement("br"));
+  }
+  dev_data[id].value = notification.value;
+  //console.log(JSON.stringify(notification));
+});
+
+</script>
+
+</body>
+</html>
