@@ -1,0 +1,4 @@
+dd if=orig.jpg bs=1 count=123450 of=corrupt.jpg
+dd if=orig.jpg bs=1 skip=123482 seek=123450 of=corrupt.jpg
+
+jpegrepair corrupt.jpg after.jpg dest 49 49 insert 1 cdelta 0 -30 cdelta 1 30 cdelta 2 -35
