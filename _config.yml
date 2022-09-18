@@ -1,0 +1,13 @@
+title: Openright
+
+markdown: GFM
+
+remote_theme: jekyll/minima
+
+minima:
+  skin: auto
+
+plugins:
+  - jekyll-remote-theme
+  - jekyll-optional-front-matter
+  - jekyll-default-layout
