@@ -45,7 +45,7 @@ Created with:
 csound midi_fluid_voice.csd -F lithium_voice.mid
 ```
 
-Prerequisits in Ubuntu:
+Prerequisites in Ubuntu:
 
 ```
 sudo apt-get install csound fluid-soundfont-gm

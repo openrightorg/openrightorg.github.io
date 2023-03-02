@@ -44,9 +44,9 @@ Originally, the US copyright was 14 years, which could be extended to 28
 years if the author was alive. The founding fathers wanted to prevent a
 system of hereditary privilege where the printing guilds in Europe
 controlled publishing and use of works of all authors, dead or alive,
-for 137 years. Unfortunately, after several copyright extentions, we are
+for 137 years. Unfortunately, after several copyright extensions, we are
 now have a close equivalent of the medieval Stationers’ Company, which
-controlled the English copyrights, only now the cotrolling Companies now
+controlled the English copyrights, only now the controlling Companies now
 are American media companies, which currently control publishing for 120
 years.
 
@@ -88,11 +88,11 @@ The obvious problems with current copyright law are:
     possible free knowledge exchange at any time.
   - DMCA law criminalizes the removal DRM mechanisms.
 
-### Hypocracy about Public Domain
+### Hypocrisy about Public Domain
 
 Big media companies often benefit from public domain material, then are
-motivated to never release anything, including public domain derivitives
-into the public domain. The bigest example is Disney.
+motivated to never release anything, including public domain derivatives
+into the public domain. The biggest example is Disney.
 
 #### Pinocchio
   - Original work: 1883
@@ -133,18 +133,18 @@ Commons”.
 
 A critical part of science is making the details of research publicly
 available. This permits other researchers to review and verify the
-results, as well as allowing building from one anothers research. If an
+results, as well as allowing building from one another's research. If an
 “Engineer” makes discoveries, but by contract, the designs, source and
-algorithms of the descoveries are kept secret indefinitely (forever),
+algorithms of the discoveries are kept secret indefinitely (forever),
 this work could in no way be considered “Science”. Secret discoveries
 are not science.
 
-### Sofware Copyrights
+### Software Copyrights
 
 No copyright on software has ever expired, even though software often
 becomes obsolete in 5-10 years. And even if a software copyright did
 expire, in the current common binary only distribution, this would be of
-little use to anyone. For software to be truely useful to others, the
+little use to anyone. For software to be truly useful to others, the
 source should be made available in time.
 
 ### Copyright reform
