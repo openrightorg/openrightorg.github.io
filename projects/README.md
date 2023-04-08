@@ -22,17 +22,9 @@ dbc-kcd conversion
 
 [ebroecker/canmatrix](https://github.com/ebroecker/canmatrix "https://github.com/ebroecker/canmatrix")
 
-### jpegrepair(C) (2016)
-
-Created to fix some corrupted images.
-
-![](corrupt.jpg)
-
-[jpegrepair](https://github.com/dmahurin/jpegrepair "https://github.com/dmahurin/jpegrepair")
-
 ### Klaatu (2014)
 
-Kaatu is a minimal Linux which reuses the hardware support provided in
+Klaatu is a minimal Linux which reuses the hardware support provided in
 an Android release, while removing Dalvik and above. This provides a
 minimal embedded Linux system supported by Android vendor support, while
 keeping flexibility of user interfaces (including headless, Kivy,
@@ -69,8 +61,7 @@ mobile communication.
 
 ### NodeJS/JS development example (2013)
 
-[nodejs
-example](../nodejs/ "../nodejs/")
+[nodejs example](../nodejs/ "../nodejs/")
 
 ### Wavelet experiments
 
@@ -95,44 +86,38 @@ potentially interesting uses of Csound:
 
 #### Singing with CSound
 
-See [“Singing with
-Csound”](http://csound.openright.org/ "http://csound.openright.org/")
+See ["Singing with Csound”](../csound-sing "../csound-sing")
 to learn how I used CSound to create music with a modeled synthesized
 Singing voice that replaces a MIDI instrument.
 
 #### Atari Pokey simulation using CSound
 
-See [“Atari Pokey to Csound
-Conversion”](http://sap.openright.org/ "http://sap.openright.org/") to
+See ["Atari Pokey to Csound Conversion"](../csound-pokey "../csound-pokey") to
 learn how I used CSound to simulate Atari Pokey sound synthesis either
 in real time with a modified atari800 emulator or offline using
 previously captured SAP files.
 
 ### DVD backup X
 
-[dvdbackupx](http://dvdbackupx.openright.org/ "http://dvdbackupx.openright.org/")
-is a version of dvdbackup that uses libdvdnav to find and skip unused
+dvdbackupx was a version of dvdbackup that uses libdvdnav to find and skip unused
 blocks to avoid potentially bad sectors.
 
 ### Linux Kernel based (iptables/netfilter) based UDP relay
 
-[ipt\_relay](http://relay.openright.org/ "http://relay.openright.org/")
-is a netfilter kernel module and IP tables modification that allow a
+udprelay was a netfilter kernel module and IP tables modification that allow a
 high volume of UDP packages to be relayed through the kernel.
 
 ### WebKNotes
 
-[WebKNotes](http://webknotes.sf.net/ "http://webknotes.sf.net/") is a
-somewhat obsolete web/perl based knowledge database. I am in the process
-of rewriting a replacement system, which is entirely client-side
+[WebKNotes](https://github.com/dmahurin/webknotes "https://github.com/dmahurin/webknotes") is a
+web based knowledge database,
+which is entirely client-side
 Javascript. All markup parsing will be performed on the client side (for
-.wiki, .chopro, …). The only requirement from the server is HTTP PUT,
-and HTTP DELETE (other HTTP/Webdav verbs may also be used). I have a
-somewhat working prototype.
+.wiki, .chopro, …).
 
 ### Perl/Linux
 
-[Perl/Linux](http://perllinux.sf.net/ "http://perllinux.sf.net/") is a
+[Perl/Linux](http://perllinux.sf.net/ "http://perllinux.sf.net/") was a
 Linux distribution where all user space programs are written in Perl.
 While this was potentially useful for an embedded platform, it was
 mostly just a fun project.
