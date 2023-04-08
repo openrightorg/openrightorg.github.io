@@ -10,6 +10,14 @@
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
         {{ content }}
+        {% for post in site.posts %}
+          {% if post.url contains page.url %}
+
+            <div class="site-footer"/>
+            <p>{{ post.date | date: "%Y-%m-%d" }}</p>
+            <p>{{ post.content }}</p>
+          {% endif %}
+        {% endfor %}
       </div>
     </main>
 
