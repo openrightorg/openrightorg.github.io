@@ -1,5 +1,5 @@
 ---
-title: Copyright and Openness
+title: Openright
 
 ---
 {% include_relative README.md %}
