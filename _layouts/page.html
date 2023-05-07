@@ -18,6 +18,9 @@
             <p>{{ post.content }}</p>
           {% endif %}
         {% endfor %}
+        {% if page.comments_id %}
+        {% include comments.html %}
+        {% endif %}
       </div>
     </main>
 
