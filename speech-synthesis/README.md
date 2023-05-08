@@ -1,6 +1,6 @@
 # Natural sounding open source speech synthesis
 
-* by Don Mahurin, 2023-03-05 *
+*by Don Mahurin, 2023-03-05*
 
 If you have listened to commonly used open source speech synthesis, you may have wondered why it sounds so primitive compared to other systems.
 

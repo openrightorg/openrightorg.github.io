@@ -1,6 +1,6 @@
 # jpegrepair
 
-by Don Mahurin, 2017-12-22
+*by Don Mahurin, 2017-12-22*
 
 Do you have JPEG images that have corrupt or missing blocks?
 
