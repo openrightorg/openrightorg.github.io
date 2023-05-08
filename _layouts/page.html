@@ -10,7 +10,7 @@
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
         {{ content }}
-        {% for post in site.posts %}
+        {% for post in site.posts  reversed %}
           {% if post.url contains page.url %}
 
             <div class="site-footer"/>
