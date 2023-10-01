@@ -13,6 +13,7 @@ plugins:
   - jekyll-default-layout
 
 header_pages:
+- transformer/index.md
 - small-lm/index.md
 - speech-synthesis/index.md
 - ipfs/index.md
