@@ -26,6 +26,9 @@ In the transformer, the tokens are initially converted into a vector representat
 
 ## Attention Head
 
+The attention weights capture how relevant each possible token to the input tokens.
+Multiple attention heads allow focus on different perspective relationships between the tokens simultaneously.
+
 An attention head in a transformer model applies the weight matrices, Wq, Wk, Wv, to form the query(Q), key(K) and value (V) component vectors.
 These vectors then apply the rotary positional encoding to capture the positional information of the input. The attention scores are obtained by taking the softmax of the product of the encoded query and key. Key and value caching facilitate more efficient score computation.
 Finally, the attention scores are used to weight the values, producing the output of the attention head.
@@ -37,6 +40,8 @@ In the feed forward part of a transformer, the normalized input sequence is tran
 Here is a drawing representing the whole process.
 
 ![](transformer.jpg)
+
+The ':' notation indicates a repeat cycle similar to the use of the symbol in music notation.  It this diagram, it shows that output of each layer is passed as input to the next layer.
 
 The small boxes represent functions. RoPE applies Rotational Positional Encoding and SiLU applies the Sigmoid Linear Unit function.
 KC and VC represent the cached K and V values respectively.
