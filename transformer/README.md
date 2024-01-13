@@ -22,9 +22,13 @@ The selected token is added back to the input sequence, and the process continue
 
 ## Transformer Layers
 
+![](transformer-simple.jpg)
+
 In the transformer, the tokens are initially converted into a vector representation known as an embedding. Subsequently, the input is normalized and passed to each 'Attention head'. The combined output of the heads applies the attention output weights and is added to back to the input. The result is then sent to the feed forward network. This process is repeated for a specified number of layers. After all the layers, the result is normalized again and weighted with the transformer output weights.
 
 ## Attention Head
+
+![](attention.jpg)
 
 The attention weights capture how relevant each possible token to the input tokens.
 Multiple attention heads allow focus on different perspective relationships between the tokens simultaneously.
@@ -34,6 +38,8 @@ These vectors then apply the rotary positional encoding to capture the positiona
 Finally, the attention scores are used to weight the values, producing the output of the attention head.
 
 ## Feed Forward
+
+![](feedforward.jpg)
 
 In the feed forward part of a transformer, the normalized input sequence is transformed by W3 and W1, with the second path additionally passed through a SiLU (Sigmoid-weighted Linear Unit) activation function. The product of these is transformed by W2, then added to the input before normalization.
 
