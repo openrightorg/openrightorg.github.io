@@ -13,6 +13,7 @@ plugins:
   - jekyll-default-layout
 
 header_pages:
+- bananas/index.md
 - reversed-llm-training/index.md
 - transformer/index.md
 - small-lm/index.md
