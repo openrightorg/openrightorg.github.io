@@ -39,13 +39,13 @@ Finally, the attention scores are used to weight the values, producing the outpu
 
 ## Feed Forward
 
-![](feedforward.jpg)
+![](feedforward.webp)
 
-In the feed forward part of a transformer, the normalized input sequence is transformed by W3 and W1, with the second path additionally passed through a SiLU (Sigmoid-weighted Linear Unit) activation function. The product of these is transformed by W2, then added to the input before normalization.
+In the feed forward part of a transformer, the normalized input sequence is transformed by Wg(gate_proj) and Wup(up_proj), with the second path additionally passed through a SiLU (Sigmoid-weighted Linear Unit) activation function. The product of these is transformed by Wdn(down_proj), then added to the input before normalization.
 
 Here is a drawing representing the whole process.
 
-![](transformer.jpg)
+![](transformer.webp)
 
 The ':' notation indicates a repeat cycle similar to the use of the symbol in music notation.  It this diagram, it shows that output of each layer is passed as input to the next layer.
 
