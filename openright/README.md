@@ -1,4 +1,4 @@
-![](openright.png)
+![](openright.webp)
 
 # Copyright and the open exchange of information
 

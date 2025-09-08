@@ -5,7 +5,7 @@
 fixed core signal encode, decode. merged/adapted QtAutomotiveClusterDemo
 as sample.
 
-![](opencansuite.png)
+![](opencansuite.webp)
 
 [sebi2k1/openCanSuite](https://github.com/sebi2k1/openCanSuite "https://github.com/sebi2k1/openCanSuite")
 
