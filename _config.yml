@@ -2,28 +2,29 @@ title: Openright
 
 markdown: GFM
 
-remote_theme: jekyll/minima
-
-minima:
-  skin: auto
-
 plugins:
   - jekyll-remote-theme
   - jekyll-optional-front-matter
   - jekyll-default-layout
 
-header_pages:
-- bananas/index.md
-- reversed-llm-training/index.md
-- transformer/index.md
-- small-lm/index.md
-- speech-synthesis/index.md
-- ipfs/index.md
-- oencrypt/index.md
-- avr-pokey-midi/index.md
-- thinslides/index.md
-- github-pages/index.md
-- jpegrepair/index.md
-- git-best-practices/index.md
-- projects/index.md
-- openright/index.md
+remote_theme: jekyll/minima
+
+minima:
+  skin: auto
+
+  nav_pages:
+    - bananas/index.md
+    - reversed-llm-training/index.md
+    - transformer/index.md
+    - small-lm/index.md
+    - speech-synthesis/index.md
+    - ipfs/index.md
+    - oencrypt/index.md
+    - avr-pokey-midi/index.md
+    - thinslides/index.md
+    - github-pages/index.md
+    - jpegrepair/index.md
+    - git-best-practices/index.md
+    - projects/index.md
+    - openright/index.md
+
