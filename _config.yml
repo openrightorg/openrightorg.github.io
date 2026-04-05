@@ -13,6 +13,7 @@ minima:
   skin: auto
 
   nav_pages:
+    - thin-search/index.md
     - bananas/index.md
     - reversed-llm-training/index.md
     - transformer/index.md
