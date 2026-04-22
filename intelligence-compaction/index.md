@@ -1,5 +1,5 @@
 ---
-title: Great Compaction
+title: Intelligence Compaction
 date: 2026-04-03
 ---
 {% include_relative README.md %}

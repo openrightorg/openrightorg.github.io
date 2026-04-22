@@ -1,4 +1,4 @@
-# The Great Compaction: From the AI Bang to the Era of Hyper-Efficiency
+# The Compaction of Intelligence: From the AI Bang to the Era of Hyper-Efficiency
 
 ## Executive Summary
 The current trajectory of Artificial Intelligence is characterized by a paradoxical tension: while the total scale of models (parameter count) continues to expand to capture emergent capabilities, the "intelligence density" required to perform specific tasks is rapidly decreasing. We stand at the threshold of a transition from the **"Big AI Bang"**—an era of massive, unoptimized expansion—to the **"Big Shrink"**—an era of hyper-optimized, goal-driven compaction. This document explores the mechanisms of this transition, the role of sparsity and quantization, and the parallel evolution of software from human-centric abstraction to machine-optimal density.
