@@ -14,6 +14,7 @@ minima:
 
   nav_pages:
     - thin-search/index.md
+    - intelligence-density/index.md
     - intelligence-compaction/index.md
     - great-divergence/index.md
     - bananas/index.md
