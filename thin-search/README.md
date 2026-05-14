@@ -1,6 +1,6 @@
 # 🌿 Thin Search – Search the Web Without a Search Engine
 
-**Thin Search** is a single‑file, server‑less search UI that lives entirely in your browser. Drop the file on a local drive or host it on any static‑file server and you have a fast, privacy‑friendly search bar that can redirect you to your favourite sites, evaluate math on‑the‑fly, and even talk to local AI models – all without ever hitting a search engine.
+**Thin Search** is a single‑file, server‑less search UI that lives entirely in your browser. Drop the file on a local drive or host it on any static‑file server and you have a fast, privacy‑friendly search bar that can redirect you to your favorite sites, evaluate math on‑the‑fly, and even talk to local AI models – all without ever hitting a search engine.
 
 ### Want to try Thin Search?
 * **Live demo**: <https://search.openright.org/> – try it now in your browser.
@@ -10,7 +10,7 @@
 
 ## The Problem: A Concentrated Web
 
-The growth of the internet has not necessarily led to more diversity of information sources. Instead we often see that information has consolidated or concentrated into fewer places. When you type something into a browser, many of the results come from a handful of sites (Stack Overflow, Reddit, Amazon, YouTube, etc.). Search sites like DuckDuckGo and Brave allow you to take advantage of that, and conveniently search directly with *bang* style shortcuts, like ``!g cats`` or ``!r questions`` to jump straight to a particular site. Some browsers even allow configuration of ``:key`` style shortcuts. After getting accustomed to such bangs or shortcuts, we may ask why we need a search engine at all, especially in the age of AI.
+The growth of the Internet has not necessarily led to more diversity of information sources. Instead we often see that information has consolidated or concentrated into fewer places. When you type something into a browser, many of the results come from a handful of sites (Stack Overflow, Reddit, Amazon, YouTube, etc.). Search sites like DuckDuckGo and Brave allow you to take advantage of that, and conveniently search directly with *bang* style shortcuts, like ``!g cats`` or ``!r questions`` to jump straight to a particular site. Some browsers even allow configuration of ``:key`` style shortcuts. After getting accustomed to such bangs or shortcuts, we may ask why we need a search engine at all, especially in the age of AI.
 
 In short: we now live in a world where *search* is more about **redirecting** than *finding*. Thin Search gives you a lightweight, privacy‑friendly way to do this with a single HTML file.
 
@@ -36,6 +36,7 @@ Thin Search combines the best parts of a search engine and a personal shortcut m
 * **Custom bangs** – edit, add, or delete bangs via the Settings page.
 * **Safe expression evaluation** – evaluate math expressions and unit conversions locally.
 * **AI integration** – point a bang to your preferred AI provider, including a local provider like Llama.cpp llama-server.
+* **AI in browser** – use AI directly from browser, without any network connection at all.
 * **Privacy‑friendly** – no additional search cookies or analytics. All logic stays in the browser. all data is stored in ``localStorage`` and never leaves your machine.
 * **Single‑file, no build step** – just drop the file anywhere.
 * **Privacy‑friendly** – all data is stored in ``localStorage`` and never leaves your machine.
