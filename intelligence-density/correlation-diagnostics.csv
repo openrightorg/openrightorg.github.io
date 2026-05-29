@@ -1,0 +1,6 @@
+Benchmark name,fit path,n,r_squared
+MMLU,identity,0,1.00000000
+MMLU-Pro,MMLU-Pro->MMLU direct,18,0.83540700
+MMLU-Redux,MMLU-Redux->MMLU direct,4,0.99910584
+SWE-Bench-Pro,SWE-Bench-Pro->MMLU-Pro composed with MMLU-Pro->MMLU,6,0.35087919
+LiveCodeBench,LiveCodeBench->MMLU-Pro composed with MMLU-Pro->MMLU,21,0.92173641

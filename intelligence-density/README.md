@@ -121,7 +121,7 @@ SWE-Bench-Pro has too little overlap and too much harness variation to serve as 
 
 The early 2023 baseline is sparse and mostly 7B-class. LLaMA-7B has MMLU 35.1 at a 4.08 GB Q4_K_M footprint, giving an MMLU density of about 0.105. Llama-2-7B-Chat improves to MMLU 45.3 at the same quantized footprint, or about 0.148.
 
-By late 2023 and 2024, compact models become much denser. Phi-1.5 reaches MMLU 37.6 with a 0.832 GB Q4_K_M artifact. Phi-2 reaches MMLU 56.7 with a 1.79 GB Q4_K_M artifact, producing about 0.468 MMLU density. Phi-3-mini-4k-instruct and Phi-3.5-mini-instruct reach approximately 0.490 MMLU density at a 2.39 GB quantized footprint. Llama-3.2-1B-Instruct is one of the strongest native MMLU-density points: MMLU 49.3 at 0.808 GB, or about 0.841.
+By late 2023 and 2024, compact models become much denser. Phi-1.5 reaches MMLU 37.6 with a 0.832 GB Q4_K_M artifact. Phi-2 reaches MMLU 56.7 with a 1.79 GB Q4_K_M artifact, producing about 0.468 MMLU density. Phi-3-mini-4k-instruct and Phi-3.5-mini-instruct reach approximately 0.490 MMLU density at a 2.39 GB quantized footprint. Llama-3.2-1B-Instruct is one of the strongest native MMLU-density points: MMLU 49.3 at 0.808 GB, or about 0.841. MiniCPM5-1B, Qwen3.6-0.6B, Qwen3.5-0.8B, and LFM2.5-1.2.B represent the 2026 density frontier for sub-2GB artifacts. MiniCPM5-1B reaches MMLU-Redux 70.06 at only 0.688 GB [76, 80], while LFM2.5-1.2.B reaches MMLU-Pro 47.98 at 0.731 GB [78, 83]. Qwen3.5-0.8B [77, 82] and Qwen3.6-0.6B [79, 81] further extend the frontier for extremely small footprints.
 
 Qwen2.5 clarifies the size/capability tradeoff. Qwen2.5-1.5B-Instruct and Qwen2.5-3B-Instruct are strong MMLU-Pro and MMLU-Redux density points. Larger Qwen2.5 7B, 14B, and 32B rows improve absolute scores but at progressively lower density.
 
@@ -240,6 +240,14 @@ This paper relies on public model cards, benchmark tables, GGUF/MXFP4/NVFP4/NF4 
 73. Zyphra. "ZAYA1-8B: Frontier intelligence density, trained on AMD." https://www.zyphra.com/post/zaya1-8b
 74. Zyphra. "ZAYA1-8B." Hugging Face. https://huggingface.co/Zyphra/ZAYA1-8B
 75. barozp. "ZAYA1-8B bitsandbytes Quantizations." Hugging Face. https://huggingface.co/barozp/ZAYA1-8B-BNB
+76. Artificial Analysis. "MiniCPM5-1B Model Details." https://artificialanalysis.ai/models/minicpm5-1b
+77. Alibaba Qwen Team. "Qwen3.5 Small Model Series." https://qwenlm.github.io/blog/qwen3.5/
+78. Liquid AI. "LFM2.5: Liquid Foundation Models v2.5." https://liquid.ai/blog/liquid-foundation-models-v2-5
+79. Alibaba Qwen Team. "Qwen3.6: Preserving Thinking in Agentic Coding." https://qwenlm.github.io/blog/qwen3.6/
+80. bartowski. "MiniCPM5-1B-GGUF." Hugging Face. https://huggingface.co/bartowski/MiniCPM5-1B-GGUF
+81. bartowski. "Qwen_Qwen3-0.6B-GGUF." Hugging Face. https://huggingface.co/bartowski/Qwen_Qwen3-0.6B-GGUF
+82. bartowski. "Qwen_Qwen3.5-0.8B-GGUF." Hugging Face. https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF
+83. Liquid AI. "LFM2.5-1.2B-Instruct-GGUF." Hugging Face. https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF
 
 ## Appendices
 
