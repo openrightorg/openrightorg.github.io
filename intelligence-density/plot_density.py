@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import math
 from datetime import datetime
@@ -17,7 +18,7 @@ CONVERSIONS = Path("to_mmlu.csv")
 OUTPUT = Path("density.webp")
 BENCHMARKS = ["MMLU", "MMLU-Pro", "MMLU-Redux", "LiveCodeBench", "SWE-Bench-Pro"]
 DISABLED_BENCHMARKS = {"SWE-Bench-Pro"}
-LABEL_COLLISION_Y = 0.015
+LABEL_COLLISION_Y = 0.010
 COLORS = {
     "MMLU": "#1b6ca8",
     "MMLU-Pro": "#2a9d55",
@@ -57,29 +58,52 @@ def inverse_mmlu(score: float, benchmark: str, conversions: dict[str, tuple[floa
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Generate density plots from llm.csv and to_mmlu.csv.")
+    parser.add_argument("--min-params", type=float, help="Minimum total parameters (billions) to include.")
+    parser.add_argument("--max-params", type=float, help="Maximum total parameters (billions) to include.")
+    parser.add_argument("--output", type=str, default="density.webp", help="Output image filename (default: density.webp).")
+    args = parser.parse_args()
+
     conversions = load_conversions()
     enabled_benchmarks = [benchmark for benchmark in BENCHMARKS if benchmark not in DISABLED_BENCHMARKS]
     points: dict[str, list[tuple[datetime, float, str, float]]] = {benchmark: [] for benchmark in enabled_benchmarks}
-    all_mmlu_equiv: list[float] = []
+    all_densities: list[float] = []
 
     with DATA.open(newline="") as f:
         for row in csv.DictReader(f):
             size = as_float(row["Quantized Model Size"])
+            params = as_float(row["Total Parameters (billions)"])
             if size is None or size <= 0:
                 continue
+            if args.min_params is not None and (params is None or params < args.min_params):
+                continue
+            if args.max_params is not None and (params is None or params > args.max_params):
+                continue
             date = datetime.fromisoformat(row["Model Release Date"])
+
             for benchmark in enabled_benchmarks:
                 score = as_float(row[benchmark])
                 if score is None:
                     continue
-                points[benchmark].append((date, density(score, size), row["Model Name"], score))
-                all_mmlu_equiv.append(to_mmlu(score, benchmark, conversions))
+                d = density(score, size)
+                points[benchmark].append((date, d, row["Model Name"], score))
+                all_densities.append(d)
 
-    if not all_mmlu_equiv:
+    if not all_densities:
         raise RuntimeError("no benchmark values found")
 
-    min_equiv = max(0.1, min(all_mmlu_equiv) - 2.0)
-    max_equiv = min(99.0, max(all_mmlu_equiv) + 2.0)
+    reference_size = 1.0
+    min_density = min(all_densities)
+    max_density = max(all_densities)
+
+    # Calculate equivalent MMLU scores for the density limits at reference_size
+    # Y = -ln(1 - R/100) / reference_size  =>  R = 100 * (1 - exp(-Y * reference_size))
+    min_equiv = 100 * (1 - math.exp(-min_density * reference_size))
+    max_equiv = 100 * (1 - math.exp(-max_density * reference_size))
+
+    # Add some buffer to the scores for axis limits
+    min_equiv = max(0.1, min_equiv - 2.0)
+    max_equiv = min(99.9, max_equiv + 2.0)
 
     fig, ax_mmlu = plt.subplots(figsize=(12, 7))
     ax_pro = ax_mmlu.twinx()
@@ -107,7 +131,6 @@ def main() -> None:
         ys = [p[1] for p in points[benchmark]]
         ax.scatter(xs, ys, s=52, color=COLORS[benchmark], marker=markers[benchmark], label=benchmark, alpha=0.86)
 
-    reference_size = 4.0
     ax_mmlu.set_ylim(density(min_equiv, reference_size), density(max_equiv, reference_size))
     for benchmark, ax in [
         ("MMLU-Pro", ax_pro),
@@ -183,7 +206,7 @@ def main() -> None:
     )
     right_margin = max(0.78, 0.92 - 0.06 * max(0, len(right_axes) - 1))
     fig.tight_layout(rect=(0, 0.035, right_margin, 1))
-    fig.savefig(OUTPUT, dpi=180)
+    fig.savefig(args.output, dpi=180)
 
 
 if __name__ == "__main__":
