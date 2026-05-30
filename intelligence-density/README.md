@@ -253,7 +253,7 @@ This paper relies on public model cards, benchmark tables, GGUF/MXFP4/NVFP4/NF4 
 
 ### Appendix A: Dataset Columns
 
-`llm.csv` contains model name, release date, full-precision/reference size, quantized size, MMLU, MMLU-Pro, MMLU-Redux, SWE-Bench-Pro, LiveCodeBench, and optional quantized benchmark columns.
+`llm.csv` contains model name, release date, total parameter count, full-precision/reference size, quantized size, MMLU, MMLU-Pro, MMLU-Redux, SWE-Bench-Pro, LiveCodeBench, and optional quantized benchmark columns.
 
 ### Appendix B: Disabled Plot Series
 
