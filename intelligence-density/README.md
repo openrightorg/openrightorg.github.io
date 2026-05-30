@@ -5,7 +5,7 @@
 
 ## Abstract
 
-Open language models have improved through scale, data, training procedure, architecture, distillation, and quantization. This paper studies a narrower deployment-oriented question: how much measured model capability is obtained per gigabyte of commonly available model artifact. We define **model intelligence density** as the negative log of benchmark error divided by quantized model size, `-ln(1 - R/100) / S`, where `R` is a benchmark score and `S` is the quantized footprint in gigabytes. Using a curated dataset of open or commonly downloadable models from 2023 through 2026, we find that compact models increasingly dominate density even when larger models retain higher absolute benchmark scores. Phi, Llama 3.2, Qwen2.5/Qwen3, Gemma, Zyphra ZAYA1, and Bonsai-family rows show much higher per-gigabyte density than early 2023 7B baselines. We also find that LiveCodeBench correlates much better with MMLU-Pro than SWE-Bench-Pro in this dataset, and therefore serves as a more useful coding benchmark for cross-metric scaling.
+Open language models have improved through scale, data, training procedure, architecture, distillation, and quantization. This paper studies a narrower deployment-oriented question: how much measured model capability is obtained per gigabyte of commonly available model artifact. We define **model intelligence density** as the negative log of benchmark error divided by quantized model size, `-ln(1 - R/100) / S`, where `R` is a benchmark score and `S` is the quantized footprint in gigabytes. Using a curated dataset of open or commonly downloadable models from 2023 through 2026, we find that compact models increasingly dominate density even when larger models retain higher absolute benchmark scores. MiniCPM, LFM, Phi, Llama 3.2, Qwen3.5/3.6, Gemma, Zyphra ZAYA1, and Bonsai-family rows show much higher per-gigabyte density than early 2023 7B baselines. We also find that LiveCodeBench correlates much better with MMLU-Pro than SWE-Bench-Pro in this dataset, and therefore serves as a more useful coding benchmark for cross-metric scaling.
 
 ## Keywords
 
@@ -68,7 +68,7 @@ The implementation is intentionally small and reproducible:
 
 ```bash
 python3 correlate.py
-python3 plot_density.py
+make plots
 ```
 
 The main inputs are:
@@ -145,7 +145,7 @@ Very large sparse and mixture-of-experts models often have high absolute scores 
 
 The data supports three conclusions.
 
-First, benchmark density has improved substantially since 2023. The leading native MMLU-density points move from roughly 0.10-0.15 for early LLaMA/Llama 2 7B rows to roughly 0.47-0.84 for Phi, Llama 3.2, and other compact 2024 models. Bonsai rows extend the density frontier through extreme low-bit formats.
+First, benchmark density has improved substantially since 2023. The leading native MMLU-density points move from roughly 0.10-0.15 for early LLaMA/Llama 2 7B rows to roughly 0.47-0.84 for 2024 compact models, reaching over 1.75 for 2026 models like MiniCPM5-1B. Bonsai rows extend the density frontier through extreme low-bit formats.
 
 Second, density and absolute capability are separate optimization targets. Large models usually remain stronger on absolute capability, especially for difficult reasoning and coding tasks, but compact models can dominate capability per quantized gigabyte.
 
@@ -260,6 +260,10 @@ This paper relies on public model cards, benchmark tables, GGUF/MXFP4/NVFP4/NF4 
 81. bartowski. "Qwen_Qwen3-0.6B-GGUF." Hugging Face. https://huggingface.co/bartowski/Qwen_Qwen3-0.6B-GGUF
 82. bartowski. "Qwen_Qwen3.5-0.8B-GGUF." Hugging Face. https://huggingface.co/bartowski/Qwen_Qwen3.5-0.8B-GGUF
 83. Liquid AI. "LFM2.5-1.2B-Instruct-GGUF." Hugging Face. https://huggingface.co/LiquidAI/LFM2.5-1.2B-Instruct-GGUF
+
+## Document Revisions
+
+- **May 29, 2026:** Updated dataset with 2026 compact models (MiniCPM5-1B, Qwen3.5/3.6, LFM2.5). Introduced size-categorized density plots (Small, Medium, Large) based on total parameter count to ensure more meaningful "apples-to-apples" comparisons within peer model groups. Added "Total Parameters (billions)" to the dataset.
 
 ## Appendices
 
