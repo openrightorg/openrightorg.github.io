@@ -126,12 +126,14 @@ def main() -> None:
     markers = {"MMLU": "o", "MMLU-Pro": "s", "MMLU-Redux": "D", "LiveCodeBench": "P", "SWE-Bench-Pro": "^"}
 
     for benchmark in enabled_benchmarks:
-        ax = axis_for[benchmark]
+        # Plot everything on ax_mmlu to avoid clipping by twinned axes with different limits
         xs = [p[0] for p in points[benchmark]]
         ys = [p[1] for p in points[benchmark]]
-        ax.scatter(xs, ys, s=52, color=COLORS[benchmark], marker=markers[benchmark], label=benchmark, alpha=0.86)
+        ax_mmlu.scatter(xs, ys, s=52, color=COLORS[benchmark], marker=markers[benchmark], label=benchmark, alpha=0.86)
 
-    ax_mmlu.set_ylim(density(min_equiv, reference_size), density(max_equiv, reference_size))
+    # Autoscale Y axis to fit the actual densities being plotted
+    y_buffer = (max_density - min_density) * 0.05 if max_density > min_density else 0.1
+    ax_mmlu.set_ylim(min_density - y_buffer, max_density + y_buffer)
     for benchmark, ax in [
         ("MMLU-Pro", ax_pro),
         ("MMLU-Redux", ax_redux),
@@ -168,7 +170,7 @@ def main() -> None:
             kept_labels.append(candidate)
 
     for _mmlu_y, _native_collision_y, date, native_y, benchmark, label in kept_labels:
-        axis_for[benchmark].annotate(label, (date, native_y), xytext=(4, 4), textcoords="offset points", fontsize=7)
+        ax_mmlu.annotate(label, (date, native_y), xytext=(4, 4), textcoords="offset points", fontsize=7)
 
     ax_mmlu.set_title("Open Model Intelligence Density Over Time")
     ax_mmlu.set_xlabel("Model release date")
