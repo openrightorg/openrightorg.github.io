@@ -48,6 +48,10 @@ Thin Search combines the best parts of a search engine and a personal shortcut m
    * `!a headphones` ➜ Amazon search for headphones
    * `google cats` ➜ Google search for cats
    * `recipe lasagna` ➜ Shows food‑related bangs (AllRecipes, Epicurious, etc.)
+   * `3 1/4 cups to tbsp` ➜ Local unit conversion
+   * `45.9178 * 3.1215` ➜ Local math calculation
+   * `!thinai write a poem about small language models` ➜ Local AI query
+   * `!thinai how does a LED work` ➜ Local AI query
 3. Hit **Enter** to perform the search.
 4. Click **⚙️ Settings** to edit your list of bangs.
 
