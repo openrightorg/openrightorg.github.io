@@ -91,7 +91,19 @@ Changing this set enables or disables specific plotted benchmark axes without re
 
 ## Evaluation / Experiments / Results
 
-![Open model intelligence density over time](density.webp)
+The analysis shows a clear upward trend in intelligence density across all model categories from 2023 to 2026. This trend is visible not only in the overall dataset but also when models are grouped by parameter count, indicating that density gains are being achieved at every scale of model development.
+
+### Overall Density Trend
+
+![Open model intelligence density over time - All Models](density_all.webp)
+
+### Density Trends by Model Size
+
+To better visualize the scaling behavior, we categorize models by total parameter count:
+
+- **Small (<= 3.5B):** ![Small Models](density_small.webp)
+- **Medium (> 3.5B <= 15B):** ![Medium Models](density_medium.webp)
+- **Large (> 15B <= 36B):** ![Large Models](density_large.webp)
 
 ### Correlation Results
 
