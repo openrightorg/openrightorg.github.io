@@ -1,6 +1,6 @@
 title: Openright
 
-markdown: GFM
+markdown: kramdown
 
 plugins:
   - jekyll-remote-theme
@@ -23,6 +23,7 @@ minima:
     - transformer/index.md
     - small-lm/index.md
     - speech-synthesis/index.md
+    - metropolis/index.md
     - ipfs/index.md
     - oencrypt/index.md
     - avr-pokey-midi/index.md
