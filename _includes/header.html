@@ -15,6 +15,26 @@
     <pagefind-modal-trigger style="background:transparent;border:0;padding:0;cursor:pointer;" aria-label="Search"></pagefind-modal-trigger>
     <pagefind-modal></pagefind-modal>
   </div>
+  <script>
+  (function(){
+    const q = new URLSearchParams(location.search).get('q');
+    if (!q) return;
+    const sel = 'pagefind-input input.pf-input';
+    function do_query(){
+      const input = document.querySelector('pagefind-input input.pf-input');
+      const dialog = document.querySelector('pagefind-modal dialog.pf-modal');
+      dialog.showModal();
+      if (input){
+        input.value = q;
+        input.focus();
+        input.dispatchEvent(new Event('input', { bubbles: true, composed: true }));
+        return;
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', do_query, { once: true });
+    else do_query();
+  })();
+  </script>
 
   {%- unless page_titles == empty -%}
     <nav class="site-nav" style="float:right">
