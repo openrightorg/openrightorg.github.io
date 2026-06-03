@@ -1,0 +1,3 @@
+[submodule "pagefind"]
+	path = pagefind
+	url = https://github.com/openrightorg/openrightorg.github.io-pagefind.git

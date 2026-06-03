@@ -1,0 +1,32 @@
+<header class="site-header">
+  <div class="wrapper" style="float: left">
+    {%- assign default_paths = site.pages | map: "path" -%}
+    {%- assign page_paths = site.minima.nav_pages | default: default_paths -%}
+    {%- assign page_titles = site.pages | map: 'title' | compact %}
+  <a class="site-title" rel="author" href="{{ '/' | relative_url }}" style="flex:0 0 auto;">{{ site.title | escape }}</a>
+
+  <div id="search" style="float:right; margin-top: 0.5em;">
+    <script>
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+      document.getElementById('search').setAttribute('data-pf-theme','dark');
+    </script>
+    <link href="/pagefind/pagefind-component-ui.css" rel="stylesheet">
+    <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+    <pagefind-modal-trigger style="background:transparent;border:0;padding:0;cursor:pointer;" aria-label="Search"></pagefind-modal-trigger>
+    <pagefind-modal></pagefind-modal>
+  </div>
+
+  {%- unless page_titles == empty -%}
+    <nav class="site-nav" style="float:right">
+      <input type="checkbox" id="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
+
+      {% include nav-items.html paths = page_paths %}
+    </nav>
+  {%- endunless %}
+
+
+</div>
+</header>
