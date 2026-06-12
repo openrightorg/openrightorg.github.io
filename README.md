@@ -8,6 +8,7 @@ Search this site or others using <a href="https://search.openright.org"><font st
 
 <div class="container">
   <style scoped>
+:root { color-scheme: light dark; }
 .search-row { max-width:800px; display:flex; gap:8px; align-items:center; }
 input[type="text"]{ flex:1; padding:10px; font-size:16px; }
 button{ padding:10px 12px; }
